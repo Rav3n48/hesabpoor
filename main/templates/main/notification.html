@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
+
+
+{% block content %}
+    <section class="login">
+      <div class="login-card">
+        {% if notification_code == 1 %}
+          <h2>ایمیل تایید برای شما ارسال شد.</h2>
+        {% elif notification_code == 2 %}
+          <h2>لینک وارد شده اشتباه است.</h2>
+        {% elif notification_code == 3 %}
+          <h2>انقضای لینک به اتمام رسیده. لطفا دوباره ثبت نام کنید.</h2>
+        {% elif notification_code == 4 %}
+          <h2>ایمیل شما با موفقیت تایید شد.</h2>
+        {% elif notification_code == 5 %}
+          <h2>ایمیل تغییر رمز عبور برای شما ارسال شد.</h2>
+        {% elif notification_code == 6 %}
+          <h2>انقضای لینک به اتمام رسیده. لطفا دوباره نسبت به تغییر رمز خود اقدام کنید.</h2>
+        {% elif notification_code == 7 %}
+          <h2>رمز عبور با موفقیت تغییر داده شد.</h2>
+        {% elif notification_code == 8 %}
+          <h2>مشکلی در ایجاد حساب کاربری به وجود امد اطلاعات وارد شده را بررسی کنید و اگر قبلا ثبت نام کرده اید از صفحه ثبت نام اقدام کنید.</h2>
+        {%elif notification_code == 9 %}
+        <h2>چیکار میکنی؟ من که میدونم داری دنبال باگ میگردی.</h2>
+        {% else %}
+          <h2>اینجا چیزی برای نشان دادن نیست.</h2>
+          <a href="{% url "main-page" %}">بازگشت به صفحه اصلی</a>
+        {% endif %}
+        {% if extra %}
+          <a href="{% url extra_url %}">{{ extra_text }}</a>
+        {% endif %}
+      </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
+    
+{% block content %}
+    <section class="login">
+      {% if form.errors %}
+          <div class="errors">
+            {{ form.financial_target_text.errors }}
+          </div>
+      {% endif %}
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">هدف مالی خود را بنویسید</h2>
+        </div>
+        <form action="{% url "financial-target" %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.financial_target_text }}
+          </div>
+          <button class="submit-btn">تایید</button>
+        </form>
+      </div>
+    </section>
+{% endblock content %}

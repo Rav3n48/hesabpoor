@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}مدیریت مالی شخصی{% endblock title %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style2.css" %}" />{% endblock css_files %}
+
+
+{% block content %}
+    <main style="margin-top: 80px">
+      <section class="hero" style="padding: 5rem 0; text-align: center">
+        <div class="container">
+          <h1
+            style="font-size: 3rem; margin-bottom: 1.5rem; color: var(--dark)">
+            مدیریت هوشمند امور مالی شما
+          </h1>
+          <p
+            style="
+              font-size: 1.2rem;
+              color: var(--gray);
+              margin-bottom: 2rem;
+              max-width: 600px;
+              margin-right: auto;
+              margin-left: auto;
+            ">
+            با سیستم مدیریت مالی شخصی ما، کنترل کامل درآمد و هزینه‌های خود را به
+            دست بگیرید و به اهداف مالی خود برسید.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 1rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            ">
+            <a
+              href="{% url "login-page" %}"
+              class="btn"
+              style="
+                background: var(--primary);
+                color: white;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+              "
+              >شروع رایگان</a>
+            <a
+              href="#features"
+              class="btn"
+              style="
+                background: transparent;
+                color: var(--primary);
+                border: 2px solid var(--primary);
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+              "
+              >مشاهده امکانات</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" style="padding: 4rem 0; background: var(--light)">
+        <div class="container">
+          <h2
+            style="text-align: center; margin-bottom: 3rem; color: var(--dark)">
+            امکانات ویژه
+          </h2>
+          <div class="summary-cards">
+            <div class="summary-card card-income">
+              <div class="card-icon icon-income" style="margin-bottom: 1rem">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <h3 style="margin-bottom: 1rem; color: var(--dark)">
+                گزارش‌های پیشرفته
+              </h3>
+              <p style="color: var(--gray)">
+                نمایش گرافیکی و تحلیل‌های عمیق از وضعیت مالی شما
+              </p>
+            </div>
+
+            <div class="summary-card card-expense">
+              <div class="card-icon icon-expense" style="margin-bottom: 1rem">
+                <i class="fas fa-bullseye"></i>
+              </div>
+              <h3 style="margin-bottom: 1rem; color: var(--dark)">
+                تعیین اهداف مالی
+              </h3>
+              <p style="color: var(--gray)">
+                تعیین اهداف و پیگیری پیشرفت آن‌ها
+              </p>
+            </div>
+
+            <div class="summary-card card-balance">
+              <div class="card-icon icon-balance" style="margin-bottom: 1rem">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <h3 style="margin-bottom: 1rem; color: var(--dark)">
+                دسترسی همیشه
+              </h3>
+              <p style="color: var(--gray)">
+                دسترسی به اطلاعات از طریق موبایل و دسکتاپ
+              </p>
+            </div>
+
+            <div class="summary-card card-budget">
+              <div class="card-icon icon-budget" style="margin-bottom: 1rem">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <h3 style="margin-bottom: 1rem; color: var(--dark)">
+                امنیت بالا
+              </h3>
+              <p style="color: var(--gray)">
+                اطلاعات شما با بالاترین سطح امنیتی محافظت می‌شود
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding: 4rem 0; text-align: center">
+        <div class="container">
+          <h2 style="margin-bottom: 1.5rem; color: var(--dark)">
+            همین حالا شروع کنید
+          </h2>
+          <p style="color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem">
+            ثبت‌نام رایگان است و فقط ۲ دقیقه زمان می‌برد
+          </p>
+          <a
+            href="{% url "login-page" %}"
+            class="btn"
+            style="
+              background: var(--primary);
+              color: white;
+              padding: 1rem 3rem;
+              font-size: 1.2rem;
+            ">
+            <i class="fas fa-user-plus"></i> ایجاد حساب کاربری
+          </a>
+        </div>
+      </section>
+    </main>
+{% endblock content %}

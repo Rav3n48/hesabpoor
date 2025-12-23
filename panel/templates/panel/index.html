@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load num_filters %}
+{% load jalali %}
+{% load static %}
+
+
+{% block title %}سیستم مدیریت مالی شخصی{% endblock title %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
+{% block content %}
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <a href="{% url "panel-page" %}">
+          <i class="fas fa-wallet"></i>
+          <span class="m">مدیریت مالی</span>
+        </a>
+      </div>
+
+      <nav>
+        <ul>
+          <li class="layer1">
+            <a href="{% url "panel-page" %}" class="active"><i class="fas fa-home"></i>داشبورد</a>
+          </li>
+          <li class="layer2">
+            <a href="{% url "transaction-page" %}"><i class="fas fa-exchange-alt"></i>تراکنش‌ها</a>
+          </li>
+          <li class="layer3">
+            <a href="{% url "reports-page" %}"><i class="fas fa-chart-pie"></i>گزارش‌ها</a>
+          </li>
+          <li class="layer4">
+            <a href="{% url "profile-page" %}"><i class="fas fa-cog"></i>تنظیمات پروفایل</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="profile" dir="ltr">
+
+    {% if user.profile_picture %}
+    <a href="{% url "profile-page" %}"><img src="{% url "profile-pic" %}" alt="avatar" class="avatar" /></a>
+    {% else %}
+    <a href="{% url "profile-page" %}"><img src="{% static "images/blank-profile-picture.webp" %}" alt="avatar" class="avatar" /></a>
+    {% endif %}
+    <span class="username">{{ user.full_name }}</span>
+  </div>
+  <main class="container">
+    <div class="dashboard-header">
+      <h1 class="page-title">داشبورد مالی</h1>
+      <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          {% if range_type == "this-week" %}هفته جاری
+          {% elif  range_type == "this-month" %}ماه جاری
+          {% elif range_type == "last-month" %}ماه گذشته
+          {% elif range_type == "this-year" %}سال جاری
+          {% else %}همه
+          {% endif %}
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="?range=all">همه</a></li>
+          <li><a class="dropdown-item" href="?range=this-week">هفته جاری</a></li>
+          <li><a class="dropdown-item" href="?range=this-month">ماه جاری</a></li>
+          <li><a class="dropdown-item" href="?range=last-month"> ماه گذشته</a></li>
+          <li><a class="dropdown-item" href="?range=this-year">سال جاری</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="summary-cards">
+      <div class="summary-card card-income">
+        <div class="card-header">
+          <div class="card-title">کل درآمد</div>
+          <div class="card-icon icon-income">
+            <i class="fas fa-arrow-down"></i>
+          </div>
+        </div>
+      <div class="card-value">{{ incomes_total|default:"0"|persian_digits }} تومان </div>
+      {% comment %}
+        <div class="card-change positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>۱۰٪ نسبت به ماه گذشته</span>
+        </div>
+        {% endcomment %}
+      </div>
+
+      <div class="summary-card card-expense">
+        <div class="card-header">
+          <div class="card-title">کل هزینه</div>
+          <div class="card-icon icon-expense">
+            <i class="fas fa-arrow-up"></i>
+          </div>
+        </div>
+      <div class="card-value">{{ outcomes_total|default:"0"|persian_digits }} تومان </div>
+      {% comment %}
+        <div class="card-change negative">
+          <i class="fas fa-arrow-up"></i>
+          <span>۵٪ نسبت به ماه گذشته</span>
+        </div>
+        {% endcomment %}
+      </div>
+
+      <div class="summary-card card-balance">
+        <div class="card-header">
+          <div class="card-title">موجودی</div>
+          <div class="card-icon icon-balance">
+            <i class="fas fa-wallet"></i>
+          </div>
+        </div>
+        <div class="card-value">{{ balance| default:"0"|persian_digits }} تومان </div>
+        {% comment %}
+        <div class="card-change positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>۱۵٪ نسبت به ماه گذشته</span>
+        </div>
+        {% endcomment %}
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="main-content">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">تراکنش‌های اخیر</h2>
+          </div>
+          <div class="table-container">
+            <table class="transactions-table" id="transactionsTable">
+              <thead>
+                <tr>
+                  <th>دسته‌بندی</th>
+                  <th>توضیحات</th>
+                  <th>تاریخ</th>
+                  <th>مبلغ</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="transactionsBody">
+                {% for t in transactions %}
+                <tr>
+                  <td>{{ t.get_category_display }}</td>
+                  <td>{{ t.comment }}</td>
+                  <td>{{ t.date|to_jalali:"%Y-%m-%d %H:%M"|persian_digits }}</td>
+                  <td>{{ t.amount|persian_digits}} تومان </td>
+                    {% if t.transaction_type == "income" %}
+                    <td>
+                      درآمد
+                    </td>
+                    {% else %}
+                    <td>
+                      هزینه
+                    </td>
+                    {% endif %}
+                  </td>  
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5">تراکنشی برای این بازه وجود ندارد.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+        <div class="card ft">
+          <div class="card-header">
+            <h2 class="card-title">اهداف مالی</h2>
+            <div class="card-actions">
+              <a href="{% url "financial-target" %}" id="plus-btn">
+              <button class="btn-icon" id="addGoalBtn">
+                <i class="fas fa-plus"></i>
+              </button>
+              </a>
+            </div>
+          </div>
+          <div id="goalsList">
+            {% if financial_targets %}
+              {% for target in financial_targets %}
+                <div class="goal-item">{{ target }}<a href="?rm_ft={{ forloop.counter0 }}"><button class="btn-icon"><i class="fa fa-close"></i></button></a></div>
+              {% endfor %}
+            {% else %}
+              <div class="goal-item">هدف مالی ثبت نشده است.</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="modal" id="transactionModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>تراکنش جدید</h3>
+        <button class="close-btn" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block js_files %}
+  <script src="{% static "scripts/script.js" %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+{% endblock js_files %}
+

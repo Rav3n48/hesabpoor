@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}تراکنش جدید{% endblock title %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
+    
+{% block content %}
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <a href="{% url "panel-page" %}">
+            <i class="fas fa-wallet"></i>
+            <span class="m">مدیریت مالی</span>
+          </a>
+        </div>
+
+        <nav>
+          <ul>
+            <li class="layer1">
+              <a href="{% url "panel-page" %}" class="active"><i class="fas fa-home"></i>داشبورد</a>
+            </li>
+            <li class="layer2">
+              <a href="{% url "transaction-page" %}"><i class="fas fa-exchange-alt"></i>تراکنش‌ها</a>
+            </li>
+            <li class="layer3">
+              <a href="{% url "reports-page" %}"><i class="fas fa-chart-pie"></i>گزارش‌ها</a>
+            </li>
+            <li class="layer4">
+              <a href="{% url "profile-page" %}"><i class="fas fa-cog"></i> تنظیمات پروفایل</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section class="transaction">
+      <div class="sidebar">
+        {% if form.errors %}
+          <div class="errors">
+          {{ form.amount.errors }}
+          {{ form.category.errors }}
+          {{ form.date.errors }}
+          </div>
+          {% endif %}
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">تراکنش جدید</h2>
+          </div>
+          <form action="{% url 'transaction-page' %}" method="POST" class="add-transaction-form" id="transactionForm">
+            {% csrf_token %}  
+            <div class="form-group">
+              <label for="type">نوع تراکنش</label>
+                <div class="radio-group">
+                {% for radio in form.transaction_type %}
+                  <label class="radio-option">
+                    {{ radio.tag }}
+                    <span class="radio-custom"></span>
+                    <span>{{ radio.choice_label }}</span>
+                  </label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="amount">مبلغ (تومان)</label>
+              {{ form.amount }}
+            </div>
+
+            <div class="form-group">
+              <label for="category">دسته‌بندی</label>
+              {{ form.category }}
+            </div>
+
+            <div class="form-group">
+               <label for="description">توضیحات (اختیاری)</label>
+              {{ form.comment }}
+            </div>
+
+            <div class="form-group">
+              <label for="date">تاریخ</label>
+              {{ form.date }}
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 1rem"
+              id="add"
+            >
+              <i class="fas fa-plus"></i>
+              افزودن تراکنش
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block js_files %}
+    <script src="{% static "scripts/script.js" %}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"></script>
+{% endblock js_files %}

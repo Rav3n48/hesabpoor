@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ایجاد حساب{% endblock title %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
+    
+{% block content %}
+    <section class="login">
+      {% if form.errors %}
+          <div class="errors">
+          {{ form.first_name.errors }}          
+          {{ form.last_name.errors }}          
+          {{ form.email.errors }}          
+          {{ form.password.errors }}          
+          </div>
+      {% endif %}
+      <div class="login-card">
+        <h2>اکانت خود را بسازید</h2>
+        <form action="{% url "signup-page" %}" method="POST">
+          {% csrf_token %}
+          <div class=" input-box">
+            {{ form.first_name }}
+            <label for="first_name">نام</label>
+          </div>
+          <div class=" input-box">
+            {{ form.last_name }}
+            <label for="last-name">نام خانوادگی</label>
+          </div>
+          <div class="input-box">
+            {{ form.email }}
+            <label>ایمیل</label>
+          </div>
+          <div class="input-box">
+            {{ form.password }}
+            <label>رمز عبور</label>
+          </div>
+          <button class="submit-btn">تایید</button>
+          <p class="login-text">از قبل اکانت دارید؟ <a href="{% url "login-page" %}">وارد شوید</a>
+        </form>
+      </div>
+    </section>
+{% endblock content %}

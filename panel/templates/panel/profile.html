@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}پنل کاربری{% endblock title %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static "css/style.css" %}" /> {% endblock css_files %}
+
+{% block content %}
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <a href="{% url "panel-page" %}">
+        <i class="fas fa-wallet"></i>
+        <span class="m">مدیریت مالی</span>
+      </a>
+    </div>
+
+    <nav>
+      <ul>
+        <li class="layer1">
+          <a href="{% url "panel-page" %}" class="active"><i class="fas fa-home"></i> داشبورد</a>
+        </li>
+        <li class="layer2">
+          <a href="{% url "transaction-page" %}"><i class="fas fa-exchange-alt"></i> تراکنش‌ها</a>
+        </li>
+        <li class="layer3">
+          <a href="{% url "reports-page" %}"><i class="fas fa-chart-pie"></i> گزارش‌ها</a>
+        </li>
+        <li class="layer4">
+          <a href="{% url "profile-page" %}"><i class="fas fa-cog"></i> تنظیمات پروفایل</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<section class="panel">
+  <div class="pkos">
+    <div class="user-profile">
+      <h2>تغییر عکس پروفایل</h2>
+
+      {% if user.profile_picture %}
+      <img class="profile" src="{% url "profile-pic" %}" alt="عکس پروفایل">
+      {% else %}
+      <img class="profile" src="{% static "images/blank-profile-picture.webp" %}" alt="عکس پروفایل">
+      {% endif %}
+      <form action="{% url 'profile-page' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if avatar_form.errors %}
+        <div class="errors">
+          {{ avatar_form.profile_picture.errors }}
+        </div>
+        {% endif %}
+
+        {{ avatar_form.profile_picture }}
+        <button type="submit" class="pbutton" name="form_type" value="avatar">
+          <i class="fas fa-cloud-upload-alt"></i> آپلود تصویر
+        </button>
+      </form>
+    </div>
+    <div class="user-profile logout-background">
+      <form action="{% url "logout" %}" method="post" class="logoutform">
+        {% csrf_token %}
+        <button style="font: size 2rem;" class="pbutton logout">خروج<i class="fa fa-sign-out"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="user-panel" dir="rtl">
+    <h2>
+      <i class="fa-solid fa-user-gear"></i>
+      تنظیمات حساب کاربری
+    </h2>
+    <form action="{% url 'profile-page' %}" method="POST" class="panel-form">
+      {% csrf_token %}
+
+      {% if profile_form.errors %}
+      <div class="errors">
+        {{ profile_form.first_name.errors }}
+        {{ profile_form.last_name.errors }}
+      </div>
+      {% endif %}
+
+      <label for="name">نام :</label>
+      {{ profile_form.first_name }}
+
+      <label for="last_name">نام خانوادگی</label>
+      {{ profile_form.last_name }}
+
+      <button type="submit" class="btn2" name="form_type" value="profile">ویرایش اطلاعات</button>
+
+    </form>
+    <form action="{% url 'profile-page' %}" method="POST" class="panel-form">
+      {% csrf_token %}
+
+      <hr style="margin: 30px 0; border-color: #eee;">
+      {% if password_form.errors %}
+      <div class="errors">
+        {{ password_form.current_password.errors }}
+        {{ password_form.new_password.errors }}
+      </div>
+      {% endif %}
+      <label for="password">رمز عبور کنونی:</label>
+      {{ password_form.current_password }}
+
+      <label for="password">رمز عبور جدید:</label>
+      {{ password_form.new_password }}
+
+      <button type="submit" class="btn2" name="form_type" value="password">
+        <i class="fas fa-check"></i> ذخیره تغییرات
+      </button>
+    </form>
+  </div>
+
+</section>
+{% endblock content %}
+
+{% block js_files %}
+<script src="{% static "scripts/script.js" %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+{% endblock js_files %}

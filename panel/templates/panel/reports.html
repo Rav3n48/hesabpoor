@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jalali %}
+{% load num_filters %}
+
+{% block title %}گزارش ها{% endblock title %}
+
+{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
+
+{% block content %}
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <a href="{% url "panel-page" %}">
+            <i class="fas fa-wallet"></i>
+            <span class="m">مدیریت مالی</span>
+          </a>
+        </div>
+
+        <nav>
+          <ul>
+            <li class="layer1">
+              <a href="{% url "panel-page" %}" class="active"><i class="fas fa-home"></i> داشبورد</a>
+            </li>
+            <li class="layer2">
+              <a href="{% url "transaction-page" %}"><i class="fas fa-exchange-alt"></i> تراکنش‌ها</a>
+            </li>
+            <li class="layer3">
+              <a href="{% url "reports-page" %}"><i class="fas fa-chart-pie"></i> گزارش‌ها</a>
+            </li>
+            <li class="layer4">
+              <a href="{% url "profile-page" %}"><i class="fas fa-cog"></i> تنظیمات پروفایل</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section id="reportcard">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">گزارش هزینه‌ها بر اساس دسته‌بندی</h2>
+          <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          {% if type == "all" %}همه
+          {% elif type == "salary" %}حقوق
+          {% elif  type == "food" %}خوراک
+          {% elif type == "clothes" %}پوشاک
+          {% elif type == "transportation" %}حمل و نقل
+          {% elif type == "hobby" %}تفریح و سرگرمی
+          {% elif type == "health" %}سلامتی
+          {% elif type == "investment" %}سرمایه گذاری
+          {% elif type == "loan" %}وام
+          {% elif type == "rent" %}اجاره
+          {% elif type == "bill" %}قبض ها
+          {% else %}
+          همه 
+          {% endif %}
+
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="?type=all">همه</a></li>
+          <li><a class="dropdown-item" href="?type=salary">حقوق</a></li>
+          <li><a class="dropdown-item" href="?type=food">خوراک</a></li>
+          <li><a class="dropdown-item" href="?type=clothes">پوشاک</a></li>
+          <li><a class="dropdown-item" href="?type=transportation">حمل و نقل</a></li>
+          <li><a class="dropdown-item" href="?type=hobby">تفریح و سرگرمی</a></li>
+          <li><a class="dropdown-item" href="?type=health">سلامتی</a></li>
+          <li><a class="dropdown-item" href="?type=investment">سرمایه گذاری</a></li>
+          <li><a class="dropdown-item" href="?type=loan">وام</a></li>
+          <li><a class="dropdown-item" href="?type=rent">اجاره</a></li>
+          <li><a class="dropdown-item" href="?type=bill">قبض ها</a></li>
+        </ul>
+      </div>
+          
+        </div>
+        <div class="chart-container">
+          <table class="transactions-table report" id="transactionsTable">
+              <thead>
+                {% if transactions %}
+                <tr>
+                  <th>دسته‌بندی</th>
+                  <th>توضیحات</th>
+                  <th>تاریخ</th>
+                  <th>مبلغ</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="transactionsBody">
+                  {% for t in transactions %}
+                  <tr>
+                    <td>{{ t.get_category_display }}</td>
+                    <td>{{ t.comment }}</td>
+                    <td>{{ t.date|to_jalali:"%Y-%m-%d %H:%M"|persian_digits }}</td>
+                    <td>{{ t.amount|persian_digits}} تومان </td>
+                      {% if t.transaction_type == "income" %}
+                      <td>
+                        درآمد
+                      </td>
+                      {% else %}
+                      <td>
+                        هزینه
+                      </td>
+                      {% endif %}
+                    </td>  
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                <tr>
+                  <td colspan="5" class="text-center">هیچ تراکنشی برای نمایش وجود ندارد</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          {% comment %} <div class="chart-placeholder">
+            <i class="fas fa-chart-pie"></i>
+            <p>نمودار هزینه‌ها بر اساس دسته‌بندی</p>
+            <small>این بخش با کتابخانه نمودارسازی پر خواهد شد</small>
+          </div> {% endcomment %}
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block js_files %}
+    <script src="{% static "scripts/script.js" %}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"></script>
+{% endblock js_files %}
