@@ -20,8 +20,8 @@ def shamsi_year():
 def to_jalali(value, fmt="%Y/%m/%d"):
     if not value:
         return ""
-    jdate = jdatetime.datetime.fromgregorian(datetime=value)
+    local_value = timezone.localtime(value)
 
-    value = timezone.localtime(value)
+    jdate = jdatetime.datetime.fromgregorian(datetime=local_value)
 
     return jdate.strftime(fmt)
