@@ -197,6 +197,10 @@ header:hover nav a span {
   width: 100%;
 }
 
+.layer4 a {
+  text-wrap-mode: nowrap;
+}
+
 main {
   margin-right: var(--sidebar-width-collapsed);
   transition: var(--transition);
