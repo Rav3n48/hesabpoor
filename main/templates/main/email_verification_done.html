@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+{% endblock css_files %}
+
+
+{% block content %}
+  <section class="login">
+    <div class="login-card">
+      <h2>ایمیل شما با موفقیت تایید شد.</h2>
+      <p><a href="">برای ورود به پنل کلیک کنید.</a></p>
+    </div>
+  </section>
+{% endblock content %}
