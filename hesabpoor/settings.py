@@ -95,16 +95,17 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'max_length': 6,
+            'min_length': 6,
         }
     },
 ]
 
+AUTH_USER_MODEL = 'main.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'fa_IR'
+LANGUAGE_CODE = 'fa-IR'
 
 TIME_ZONE = 'Asia/Tehran'
 
@@ -144,7 +145,9 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 
 
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'panel'
+LOGIN_URL = 'login'
 
 # Session securing
 SESSION_COOKIE_SECURE = True

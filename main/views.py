@@ -8,6 +8,7 @@ from django.views import View
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.conf import settings
 from django.utils import timezone
+from panel.models import Profile
 
 
 from .models import User
@@ -31,7 +32,7 @@ class IndexView(View):
 class SignupView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('panel-page')
+            return redirect('panel')
         form = UserSignUpForm()
         return render(request, 'main/signup.html', {'form': form})
 
@@ -45,7 +46,7 @@ class SignupView(View):
             user.save()
             token = email_verification_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.id))
-            link = request.build_absolute_uri(reverse('verify_email', kwargs={'uidb64': uid, 'token': token}))
+            link = request.build_absolute_uri(reverse('email_verify', kwargs={'uidb64': uid, 'token': token}))
             send_mail(
                 subject='حساب خود را تایید کنید',
                 message=f'لطفا برای تایید حساب کاربری خود در وبسایت حساب پور  روی لینک زیر کلیک کنید:\n\n{link}',
@@ -69,5 +70,7 @@ class EmailVerificationView(View):
             user.email_verified = True
             user.email_verified_at = timezone.now()
             user.save()
+            profile = Profile(user=user)
+            profile.save()
             return render(request, 'main/email_verification_done.html')
         return render(request, 'main/email_verification_error.html')
