@@ -1,0 +1,27 @@
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <a href="{% url "panel" %}">
+        <i class="fas fa-wallet"></i>
+        <span class="m">مدیریت مالی</span>
+      </a>
+    </div>
+
+    <nav>
+      <ul>
+        <li class="layer1">
+          <a href="{% url "panel" %}" class="active"><i class="fas fa-home"></i>داشبورد</a>
+        </li>
+        <li class="layer2">
+          <a href="{% url "transaction" %}"><i class="fas fa-exchange-alt"></i>تراکنش‌ها</a>
+        </li>
+        <li class="layer3">
+          <a href="{% url "reports" %}"><i class="fas fa-chart-pie"></i>گزارش‌ها</a>
+        </li>
+        <li class="layer4">
+          <a href="{% url "profile" %}"><i class="fas fa-cog"></i>تنظیمات پروفایل</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

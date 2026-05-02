@@ -23,8 +23,7 @@
 }
 
 body {
-  background: url(../images/background_image.png) no-repeat center center fixed
-    #f5f7fb;
+  background: url(../images/background_image.png) no-repeat center center fixed #f5f7fb;
   background-size: cover;
   background-position: center;
   color: var(--dark);
@@ -258,6 +257,7 @@ main {
   border: 2px solid;
   box-shadow: var(--box-shadow);
 }
+
 .btn:hover {
   background: var(--secondary);
   transform: translateY(-2px);
@@ -555,6 +555,11 @@ header:not(:hover) .btn {
   padding: 1rem;
   background: var(--light);
   border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .goal-header {
@@ -566,6 +571,34 @@ header:not(:hover) .btn {
 
 .goal-name {
   font-weight: 600;
+}
+
+.goal-text {
+  flex: 1;
+}
+
+.goal-item.done .goal-text {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.goal-item > * {
+  display: inline-block;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.goal-item a {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.btn-icon.goal-done,
+.btn-icon.goal-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .goal-percentage {
@@ -1082,6 +1115,7 @@ footer {
   margin-top: 20px !important;
   transition: var(--transition);
 }
+
 .logout {
   padding: 13px 150px;
   text-align: center;
@@ -1099,7 +1133,7 @@ footer {
 }
 
 i.fa.fa-sign-out {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 @media (max-width: 992px) {
@@ -1137,6 +1171,7 @@ i.fa.fa-sign-out {
   margin-right: 11%;
   margin-top: 3%;
 }
+
 #reportcard .card {
   width: 100%;
   height: 100%;
@@ -1153,6 +1188,7 @@ i.fa.fa-sign-out {
   margin-right: 29%;
   margin-top: 5%;
 }
+
 .transaction .sidebar {
   width: 100%;
   height: 100%;
@@ -1221,6 +1257,7 @@ i.fa.fa-sign-out {
   font-size: 0.75rem;
   color: #2979ff;
 }
+
 .input-box input:focus + label,
 .input-box input:not(:placeholder-shown) + label {
   right: 14px;
@@ -1271,6 +1308,7 @@ i.fa.fa-sign-out {
   margin-bottom: 1rem;
   height: auto;
 }
+
 .errors ul {
   list-style: none;
 }

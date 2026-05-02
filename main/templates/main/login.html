@@ -1,34 +1,33 @@
-{% extends "base.html" %}
+{% extends "main.html" %}
 {% load static %}
 
-{% block title %}لاگین{% endblock title %}
+{% block title %}ورود{% endblock title %}
 
-{% block css_files %}<link rel="stylesheet" href="{% static "css/style.css" %}" />{% endblock css_files %}
-    
 {% block content %}
-    <section class="login">
-      {% if form.errors %}
-          <div class="errors">
-            {{ form.email.errors }}
-            {{ form.password.errors }}
-          </div>
-      {% endif %}
-      <div class="login-card">
-        <h2>به اکانت خود لاگین کنید</h2>
-        <form action="{% url "login-page" %}" method="POST">
-          {% csrf_token %}
-          <div class="input-box">
-            {{ form.email }}
-            <label>ایمیل</label>
-          </div>
-          <div class="input-box">
-            {{ form.password }}
-            <label>رمزعبور</label>
-          </div>
-          <button class="submit-btn">تایید</button>
-          <p class="login-text">اکانت ندارید؟ <a href="{% url "signup-page" %}">اکانت بسازید</a><br><br>
-          <a href="{% url "forgot-password-page" %}">رمزتان را فراموش کرده اید؟</a></p>
-        </form>
+  <section class="login">
+    {% if form.errors %}
+      <div class="errors">
+        {{ form.non_field_errors.as_ul }}
+        {{ form.username.errors }}
+        {{ form.password.errors }}
       </div>
-    </section>
+    {% endif %}
+    <div class="login-card">
+      <h2>به اکانت خود لاگین کنید</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="input-box">
+          {{ form.username }}
+          <label>ایمیل</label>
+        </div>
+        <div class="input-box">
+          {{ form.password }}
+          <label>رمزعبور</label>
+        </div>
+        <button class="submit-btn">تایید</button>
+        <p class="login-text">اکانت ندارید؟ <a href="{% url "signup" %}">اکانت بسازید</a><br><br>
+          <a href="{% url "password_reset" %}">رمزتان را فراموش کرده اید؟</a></p>
+      </form>
+    </div>
+  </section>
 {% endblock content %}

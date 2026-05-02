@@ -1,0 +1,40 @@
+{% load static %}
+{% load jalali %}
+{% load num_filters %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="https://lib.arvancloud.ir/font-awesome/6.3.0/css/all.min.css"/>
+  <link href="https://lib.arvancloud.ir/vazir-font/33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://lib.arvancloud.ir/slim-select/2.4.2/slimselect.css"/>
+  <link rel="stylesheet" href="https://lib.arvancloud.ir/bootstrap/5.2.3/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+  {% block css_files %}{% endblock css_files %}
+</head>
+
+<body>
+{% block content %}{% endblock content %}
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#">درباره ما</a>
+        <a href="#">تماس با ما</a>
+        <a href="#">قوانین و مقررات</a>
+        <a href="#">حریم خصوصی</a>
+      </div>
+      <div class="copyright">&copy; {% shamsi_year %} - تمام حقوق محفوظ است</div>
+    </div>
+  </div>
+</footer>
+
+{% block js_files %}
+  <script src="{% static "scripts/script.js" %}"></script>
+  <script src="https://lib.arvancloud.ir/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+{% endblock js_files %}
+</body>
