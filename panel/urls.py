@@ -1,12 +1,13 @@
 from django.urls import path
-from . import financial_target_page_view, panel_page_view, profile_page_view, reports_page_view, transaction_page_view, profile_picture, logout
+from . import views
 
 urlpatterns = [
-    path("", panel_page_view.panel_page, name="panel-page"),
-    path("transaction/", transaction_page_view.transactions_page, name="transaction-page"),
-    path("reports/", reports_page_view.reports_page, name="reports-page"),
-    path("profile/", profile_page_view.profile_page, name="profile-page"),
-    path("profile_picture/", profile_picture.profile_picture_display, name="profile-pic"),
-    path("financial_target/", financial_target_page_view.financial_target_page, name="financial-target"),
-    path("logout/", logout.logout, name="logout")
+    path("", views.PanelView.as_view(), name="panel"),
+    path("transaction/", views.TransactionView.as_view(), name="transaction"),
+    path("reports/", views.ReportsView.as_view(), name="reports"),
+    path("profile/", views.ProfileView.as_view(), name="profile"),
+    path("profile_picture/", views.ProfilePictureView.as_view(), name="profile_picture"),
+    path("financial_target/add/", views.FinancialTargetAddView.as_view(), name="financial_target_add"),
+    path("financial_target/done/<int:pk>", views.FinancialTargetDoneView.as_view(), name="financial_target_done"),
+    path("financial_target/remove/<int:pk>", views.FinancialTargetRemoveView.as_view(), name="financial_target_remove"),
 ]
