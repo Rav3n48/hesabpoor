@@ -121,9 +121,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 # Default primary key field type
@@ -133,18 +133,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Media access
 
-PRIVATE_MEDIA_ROOT = BASE_DIR / "uploads"
+PRIVATE_MEDIA_ROOT = BASE_DIR / 'uploads'
 
 
 # Email server
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-# EMAIL_HOST = EMAIL_HOST
-# EMAIL_PORT = EMAIL_PORT 
-# EMAIL_USE_TLS = EMAIL_USE_TLS 
-# EMAIL_HOST_USER = EMAIL_HOST_USER
-# EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
 LOGOUT_REDIRECT_URL = 'index'
